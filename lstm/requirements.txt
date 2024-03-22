@@ -1,6 +1,0 @@
-torch
-streamlit
-pandas
-numpy
-tensorflow
-keras>=2.13
