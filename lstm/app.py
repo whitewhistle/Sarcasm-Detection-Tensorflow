@@ -7,12 +7,12 @@ from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
 
 # Load the saved Keras model
-keras_model_path = "/content/drive/My Drive/keras_model.h5"
+keras_model_path = "lstm/keras_model.h5"
 loaded_model = tf.keras.models.load_model(keras_model_path)
 
 # Load data
-df1 = pd.read_json('/content/Sarcasm-Detection-Tensorflow/Dataset/Sarcasm_Headlines_Dataset.json', lines=True)
-df2 = pd.read_json('/content/Sarcasm-Detection-Tensorflow/Dataset/Sarcasm_Headlines_Dataset_v2.json', lines=True)
+df1 = pd.read_json('Dataset/Sarcasm_Headlines_Dataset.json', lines=True)
+df2 = pd.read_json('Dataset/Sarcasm_Headlines_Dataset_v2.json', lines=True)
 frames = [df1, df2]
 df = pd.concat(frames)
 
@@ -35,16 +35,24 @@ def predict_sarcasm(text):
     prediction = loaded_model.predict(preprocessed_text)
     return prediction
 
+# Set page configuration for Streamlit app
+st.set_page_config(page_title="Sarcasm Detection App", page_icon="😏")
+
 # Streamlit app
 st.title("Sarcasm Detection App")
 
 user_input = st.text_input("Enter your text:")
 
+# Prediction button
 if st.button("Predict"):
-    prediction = predict_sarcasm(user_input)
-    sarcasm_probability = prediction[0][1]
-    st.write(f"Sarcasm Probability: {sarcasm_probability:.2f}")
-    if sarcasm_probability > 0.5:
-        st.write("This text is sarcastic.")
+    if user_input.strip() == "":
+        st.warning("Please enter some text.")
     else:
-        st.write("This text is not sarcastic.")
+        with st.spinner("Predicting..."):
+            prediction = predict_sarcasm(user_input)
+            sarcasm_probability = prediction[0][1]
+            st.write(f"Sarcasm Probability: {sarcasm_probability:.2f}")
+            if sarcasm_probability > 0.5:
+                st.error("This text is sarcastic.")
+            else:
+                st.success("This text is not sarcastic.")
