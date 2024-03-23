@@ -1,22 +1,22 @@
 import matplotlib.pyplot as plt
-# summarize history for accuracy
-plt.plot(model_fit.history['acc'])
-#plt.plot(history.history['val_acc'])
-plt.title('model accuracy')
-plt.ylabel('accuracy')
-plt.xlabel('epoch')
-plt.legend(['train', 'test'], loc='upper left')
-from google.colab import files
-plt.savefig('lstm_accuracy.jpeg')
-files.download('lstm_accuracy.jpeg')
-# summarize history for loss
+# Plotting accuracy and loss
+plt.figure(figsize=(10, 5))
+plt.plot(range(1, epochs + 1), train_loss_history, label='Train Loss')
+plt.plot(range(1, epochs + 1), test_loss_history, label='Test Loss')
+plt.xlabel('Epochs')
+plt.ylabel('Loss')
+plt.title('Training and Test Loss')
+plt.legend()
+plt.grid(True)
+plt.savefig('loss_plot.png')
+plt.show()
 
-plt.plot(model_fit.history['loss'])
-#plt.plot(history.history['val_loss'])
-plt.title('model loss')
-plt.ylabel('loss')
-plt.xlabel('epoch')
-plt.legend(['train', 'test'], loc='upper left')
-from google.colab import files
-plt.savefig('lstm_loss.jpeg')
-files.download('lstm_loss.jpeg')
+plt.figure(figsize=(10, 5))
+plt.plot(range(1, epochs + 1), accuracy_history, label='Test Accuracy', color='green')
+plt.xlabel('Epochs')
+plt.ylabel('Accuracy (%)')
+plt.title('Test Accuracy')
+plt.legend()
+plt.grid(True)
+plt.savefig('accuracy_plot.png')
+plt.show()
