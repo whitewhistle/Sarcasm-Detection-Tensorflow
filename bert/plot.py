@@ -1,19 +1,3 @@
-
-import matplotlib.pyplot as plt #Library for plotting in python
-# summarize history for accuracy
-plt.plot(model_fit.history['acc'])
-plt.title('model accuracy')
-plt.ylabel('accuracy')
-plt.xlabel('epoch')
-plt.legend(['train', 'test'], loc='upper left')
-plt.savefig('bert_accuracy.jpeg')
-
-
-
-# summarize history for loss
-plt.plot(model_fit.history['loss'])
-plt.title('model loss')
-plt.ylabel('loss')
-plt.xlabel('epoch')
-plt.legend(['train', 'test'], loc='upper left')
-plt.savefig('bert_loss.jpeg')
+version https://git-lfs.github.com/spec/v1
+oid sha256:6727bec4800b40a39e1d13ef32c4f924dd1f21cb51a10a6167d406ca349a8b27
+size 779
