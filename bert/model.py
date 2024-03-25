@@ -165,4 +165,4 @@ for epoch in range(num_epochs):
     torch.cuda.empty_cache()
 
 # Save the entire model
-torch.save(model, '/kaggle/working/bert.pth')
+torch.save(model, './bert/bert.pth')
