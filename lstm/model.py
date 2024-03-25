@@ -115,3 +115,6 @@ for epoch in range(epochs):
 
     print('Epoch [%d/%d], Train Loss: %.4f, Test Loss: %.4f, Test Accuracy: %.2f %%' % (epoch + 1, epochs, train_loss,
                                                                                         test_loss, accuracy))
+    
+# Save the model
+torch.save(model.state_dict(), './lstm/lstm_model.pth')
