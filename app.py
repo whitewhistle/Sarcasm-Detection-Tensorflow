@@ -31,7 +31,7 @@ st.markdown(f'<style>{custom_theme}</style>', unsafe_allow_html=True)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Load the tokenizer and LSTM model
-tokenizer_path = "/content/drive/MyDrive/Sarcasam/tokenizer.pickle"
+tokenizer_path = "./lstm/tokenizer.pickle"
 with open(tokenizer_path, 'rb') as handle:
     loaded_tokenizer = pickle.load(handle)
 
@@ -54,7 +54,7 @@ class LSTMModel(nn.Module):
         return out
 
 model_lstm = LSTMModel(2500, 128, 196, 0.1).to(device)
-model_lstm.load_state_dict(torch.load("/content/drive/MyDrive/Sarcasam/lstm_model.pth", map_location=device)['model_state_dict'])
+model_lstm.load_state_dict(torch.load("./lstm/lstm_model.pth", map_location=device)['model_state_dict'])
 model_lstm.eval()
 
 # Load the BERT model
@@ -65,7 +65,7 @@ n_fine_tune_layers = 10
 for param in model_bert.base_model.encoder.layer[-n_fine_tune_layers:].parameters():
     param.requires_grad = True
 model_bert = model_bert.to(device)
-model_bert = torch.load('/content/drive/MyDrive/Sarcasam/bert.pth', map_location=device)
+model_bert = torch.load('./bert/bert.pth', map_location=device)
 tokenizer_bert = BertTokenizer.from_pretrained('bert-base-uncased')
 
 # Function to make predictions using LSTM
