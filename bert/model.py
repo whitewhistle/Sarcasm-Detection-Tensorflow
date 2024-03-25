@@ -21,8 +21,8 @@ max_seq_length = 256
 
 # Concatenating the two Datasets
 
-df1 = pd.read_json('./Sarcasm_Headlines_Dataset.json', lines=True)
-df2 = pd.read_json('./Sarcasm_Headlines_Dataset_v2.json', lines=True)
+df1 = pd.read_json('./Dataset/Sarcasm_Headlines_Dataset.json', lines=True)
+df2 = pd.read_json('./Dataset/Sarcasm_Headlines_Dataset_v2.json', lines=True)
 frames = [df1, df2]
 df = pd.concat(frames)
 
