@@ -9,7 +9,7 @@ pandas-datareader==0.10.0
 pandas-gbq==0.19.2
 scikit-learn==1.2.2
 sklearn-pandas==2.2.0
-streamlit==1.32.2
+streamlit
 tf-keras==2.15.1
 torch==2.2.1
 transformers==4.38.2
