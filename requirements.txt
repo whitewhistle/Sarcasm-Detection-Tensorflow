@@ -1,0 +1,16 @@
+geopandas
+keras
+matplotlib
+matplotlib-inline
+matplotlib-venn
+numpy
+pandas
+pandas-datareader
+pandas-gbq
+pandas-stubs
+scikit-learn
+sklearn-pandas
+streamlit
+tf_keras
+torch
+transformers
