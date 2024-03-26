@@ -13,4 +13,5 @@ sklearn-pandas
 streamlit
 tf_keras
 torch
+keras
 transformers
