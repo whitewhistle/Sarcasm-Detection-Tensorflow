@@ -1,5 +1,6 @@
 import streamlit as st
 import torch
+from transformers import BertTokenizer, BertForSequenceClassification
 from tf_keras.preprocessing.sequence import pad_sequences
 from tf_keras.preprocessing.text import Tokenizer
 import torch.nn as nn
@@ -57,7 +58,8 @@ model_lstm.load_state_dict(torch.load("./lstm/lstm_model.pth", map_location=devi
 model_lstm.eval()
 
 model_name = "TusharKumar23/bertSarcasm-DSG"
-
+model_bert = BertForSequenceClassification.from_pretrained(model_name).to(device)
+tokenizer_bert = BertTokenizer.from_pretrained('bert-base-uncased')
 
 # Function to make predictions using LSTM
 def predict_sarcasm_lstm(texts, model, tokenizer, max_length):
@@ -69,11 +71,7 @@ def predict_sarcasm_lstm(texts, model, tokenizer, max_length):
         _, predicted = torch.max(outputs, 1)
     predicted = predicted.cpu().numpy()
     return predicted[0]
-    
-'''
-from transformers import BertTokenizer, BertForSequenceClassification
-model_bert = BertForSequenceClassification.from_pretrained(model_name).to(device)
-tokenizer_bert = BertTokenizer.from_pretrained('bert-base-uncased')
+
 # Function to make predictions using BERT
 def predict_text_bert(text):
     inputs = tokenizer_bert(text, return_tensors='pt', max_length=256, truncation=True, padding=True)
@@ -82,10 +80,12 @@ def predict_text_bert(text):
         outputs = model_bert(**inputs)
     predicted_label = torch.argmax(outputs.logits, dim=1).item()
     return predicted_label
-'''
+
 # Streamlit app
 st.title("Sarcasm Detection App")
 st.subheader("Choose a Model to Detect Sarcasm")
+
+model_choice = st.radio("Select Model:", ("LSTM", "BERT"))
 
 input_text = st.text_input("Enter your text here:", placeholder="Type your text here...")
 
@@ -93,7 +93,11 @@ predict_button = st.button("Predict")
 
 if predict_button:
     if input_text:
-        prediction = predict_sarcasm_lstm([input_text], model_lstm, loaded_tokenizer, max_length=50)
+        if model_choice == "LSTM":
+            prediction = predict_sarcasm_lstm([input_text], model_lstm, loaded_tokenizer, max_length=50)
+        else:
+            prediction = predict_text_bert(input_text)
+        
         if prediction == 1:
             st.write("Prediction: 😏 Sarcastic!")
         else:
