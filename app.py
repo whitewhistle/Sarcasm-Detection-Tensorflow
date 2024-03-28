@@ -86,9 +86,7 @@ def predict_text_bert(text):
 # Streamlit app
 st.title("Sarcasm Detection App")
 st.subheader("Choose a Model to Detect Sarcasm")
-'''
-model_choice = st.radio("Select Model:", ("LSTM", "BERT"))
-'''
+
 input_text = st.text_input("Enter your text here:", placeholder="Type your text here...")
 
 predict_button = st.button("Predict")
