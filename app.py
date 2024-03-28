@@ -86,21 +86,17 @@ def predict_text_bert(text):
 # Streamlit app
 st.title("Sarcasm Detection App")
 st.subheader("Choose a Model to Detect Sarcasm")
-
+'''
 model_choice = st.radio("Select Model:", ("LSTM", "BERT"))
-
+'''
 input_text = st.text_input("Enter your text here:", placeholder="Type your text here...")
 
 predict_button = st.button("Predict")
 
 if predict_button:
     if input_text:
-        if model_choice == "LSTM":
             prediction = predict_sarcasm_lstm([input_text], model_lstm, loaded_tokenizer, max_length=50)
-        '''
-        else:
-            prediction = predict_text_bert(input_text)
-        '''
+
         
         if prediction == 1:
             st.write("Prediction: 😏 Sarcastic!")
