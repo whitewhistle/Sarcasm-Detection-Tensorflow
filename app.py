@@ -95,9 +95,7 @@ predict_button = st.button("Predict")
 
 if predict_button:
     if input_text:
-            prediction = predict_sarcasm_lstm([input_text], model_lstm, loaded_tokenizer, max_length=50)
-
-        
+        prediction = predict_sarcasm_lstm([input_text], model_lstm, loaded_tokenizer, max_length=50)
         if prediction == 1:
             st.write("Prediction: 😏 Sarcastic!")
         else:
