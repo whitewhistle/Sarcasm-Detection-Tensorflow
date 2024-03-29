@@ -57,9 +57,8 @@ model_lstm = LSTMModel(2500, 128, 196, 0.1).to(device)
 model_lstm.load_state_dict(torch.load("./lstm/lstm_model.pth", map_location=device)['model_state_dict'])
 model_lstm.eval()
 
-model_name = "TusharKumar23/bertSarcasm-DSG"
-model_bert = BertForSequenceClassification.from_pretrained(model_name).to(device)
 tokenizer_bert = BertTokenizer.from_pretrained('bert-base-uncased')
+model_bert = BertForSequenceClassification.from_pretrained("stein1045/bert-model2").to(device)
 
 # Function to make predictions using LSTM
 def predict_sarcasm_lstm(texts, model, tokenizer, max_length):
