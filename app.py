@@ -1,6 +1,5 @@
 import streamlit as st
 import torch
-from transformers import BertTokenizer, BertForSequenceClassification
 from tf_keras.preprocessing.sequence import pad_sequences
 from tf_keras.preprocessing.text import Tokenizer
 import torch.nn as nn
@@ -57,8 +56,13 @@ model_lstm = LSTMModel(2500, 128, 196, 0.1).to(device)
 model_lstm.load_state_dict(torch.load("./lstm/lstm_model.pth", map_location=device)['model_state_dict'])
 model_lstm.eval()
 
-tokenizer_bert = BertTokenizer.from_pretrained('bert-base-uncased')
-model_bert = BertForSequenceClassification.from_pretrained("stein1045/bert-model2").to(device)
+import requests
+API_URL = "https://api-inference.huggingface.co/models/stein1045/bert-model2"
+headers = {"Authorization": "Bearer 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"}
+def query(payload):
+	response = requests.post(API_URL, headers=headers, json=payload)
+	return response.json()	
+
 
 # Function to make predictions using LSTM
 def predict_sarcasm_lstm(texts, model, tokenizer, max_length):
@@ -73,12 +77,8 @@ def predict_sarcasm_lstm(texts, model, tokenizer, max_length):
 
 # Function to make predictions using BERT
 def predict_text_bert(text):
-    inputs = tokenizer_bert(text, return_tensors='pt', max_length=256, truncation=True, padding=True)
-    with torch.no_grad():
-        inputs = {key: val.to(device) for key, val in inputs.items()}
-        outputs = model_bert(**inputs)
-    predicted_label = torch.argmax(outputs.logits, dim=1).item()
-    return predicted_label
+    output = query({"inputs": text,})
+    return output
 
 # Streamlit app
 st.title("Sarcasm Detection App")
@@ -94,13 +94,10 @@ if predict_button:
     if input_text:
         if model_choice == "LSTM":
             prediction = predict_sarcasm_lstm([input_text], model_lstm, loaded_tokenizer, max_length=50)
+            st.write(prediction)
         else:
             prediction = predict_text_bert(input_text)
-        
-        if prediction == 1:
-            st.write("Prediction: 😏 Sarcastic!")
-        else:
-            st.write("Prediction: 😊 Not Sarcastic")
+            st.write(prediction)
 
 # Frontend improvements
 st.write("""
